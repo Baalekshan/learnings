@@ -5,9 +5,11 @@ import (
 	"gopkg.in/mgo.v2"
 	"net/http"
 
-)
+	"mongo-golang/controllers"
+	)
 
 func main() {
+
 	r := httprouter.New()
 	uc := controllers.NewUserController(getSession())
 	r.GET("/user/:id", uc.GetUser)
@@ -16,10 +18,12 @@ func main() {
 	http.ListenAndServe("localhost:9000", r)
 }
 
+
 func getSession() *mgo.Session {
 
-	s, err := mgo.Dial("mongodb://localhost:27107")
-	if err != nil {
+	s, err := mgo.Dial("mongodb://localhost:27017")
+	if err != nil{
 		panic(err)
 	}
+	return s
 }
